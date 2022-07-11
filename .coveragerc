@@ -1,0 +1,36 @@
+[run]
+omit =
+    ".venv/"
+
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+
+omit =
+    # Don't report on utils or typing
+    fepyio/utils/*
+    fepyio/typing/*
+
+    # Don't report on exceptions or object definitions
+    fepyio/exceptions.py
+
+ignore_errors = True
+
+[html]
+directory = coverage/html
+skip_empty = true

@@ -1,0 +1,60 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Cython-generated files (maybe change in the future)
+*.c
+
+# Distribution / packaging
+build/
+
+# Mypy cache
+.mypy_cache
+
+# Log files
+*.log
+
+# Temp files
+temp/
+
+# Coverage
+.coverage
+coverage/
+
+# Profiles
+*.prof
+
+# IPython
+profile_default/
+ipython_config.py
+
+# virtual environment files
+.env
+.venv
+env/
+venv/
+.env.bak/
+.venv.bak/
+env.bak/
+venv.bak/
+
+# Secrets
+.secrets/
+secrets.*
+!secrets.template.*
+
+# IDE .vscode folder
+# Note: the `/*` is needed for the negation to work
+.vscode/*
+!.vscode/*.template.json
+
+# Other files
+TODOs.md
+todo.md
+.sandbox.*
+*.ipynb

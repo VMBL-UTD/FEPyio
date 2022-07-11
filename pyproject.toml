@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "fepyio"
+version = "0.1.0"
+description = ""
+authors = [
+    "Jeremy Warren <59660784+jeremydg3@users.noreply.github.com>",
+    "Andrew Glick <17516195+Antyos@users.noreply.github.com>",
+]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.9.0,<3.10"
+dacite = "^1.6.0"
+numpy = "^1.23.0"
+xmltodict = "^0.13.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+deepdiff = "^5.8.1"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+mypy = "^0.961"
+poethepoet = "^0.14.0"
+pre-commit = "^2.19.0"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-xdist = "^2.5.0"
+
+[tool.black]
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--doctest-modules"
+testpaths = [
+    "tests",
+    "fepyio",
+]
+
+[tool.poe.tasks]
+test-coverage = "pytest --cov=fepyio --cov-report html"
+gist-sync = "python -m tools.gist_sync"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

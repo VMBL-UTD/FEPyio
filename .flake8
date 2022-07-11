@@ -1,0 +1,13 @@
+[flake8]
+# Default line length for Black
+max-line-length = 88
+select = C,E,F,W,B,B950
+extend-ignore = E203, E501
+exclude =
+    .git,
+    .github,
+    .venv,
+    .vscode,
+    __pycache__
+    temp
+    typings
