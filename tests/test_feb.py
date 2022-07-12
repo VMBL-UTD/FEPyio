@@ -32,6 +32,16 @@ from fepyio.output import LogData, LogFile, Output
 from fepyio.utils import dict_utils
 
 
+def assert_equal_dict(dict1: dict, dict2: dict, **kwargs):
+    diff = DeepDiff(
+        dict1,
+        dict2,
+        ignore_order=True,
+        **kwargs,
+    )
+    assert diff == {}, f"Diff is not None: {pformat(diff)}"
+
+
 def post_processor(path, key, value):
     # Skip keys
     if key in {"@version", "#text"}:
@@ -440,154 +450,107 @@ class TestFebCreation:
         )
 
     def test_module(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Module"],
             self.feb_dict1["febio_spec"]["Module"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Module"],
             self.feb_dict2["febio_spec"]["Module"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_control(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Control"],
             self.feb_dict1["febio_spec"]["Control"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Control"],
             self.feb_dict2["febio_spec"]["Control"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_globals(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Globals"],
             self.feb_dict1["febio_spec"]["Globals"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Globals"],
             self.feb_dict2["febio_spec"]["Globals"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_material(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Material"],
             self.feb_dict1["febio_spec"]["Material"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Material"],
             self.feb_dict2["febio_spec"]["Material"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_mesh(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Mesh"],
             self.feb_dict1["febio_spec"]["Mesh"],
             ignore_numeric_type_changes=True,
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Mesh"],
             self.feb_dict2["febio_spec"]["Mesh"],
             ignore_numeric_type_changes=True,
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_mesh_domains(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["MeshDomains"],
             self.feb_dict1["febio_spec"]["MeshDomains"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["MeshDomains"],
             self.feb_dict2["febio_spec"]["MeshDomains"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_boundary(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Boundary"],
             self.feb_dict1["febio_spec"]["Boundary"],
             ignore_type_in_groups=(str, Enum),
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Boundary"],
             self.feb_dict2["febio_spec"]["Boundary"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
         # Check key
         assert FixedBoundary("Name", "Set", dofs=("x", "y", "z"))._key == "bc"
 
     def test_loads(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Loads"],
             self.feb_dict1["febio_spec"]["Loads"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Loads"],
             self.feb_dict2["febio_spec"]["Loads"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
     def test_load_data(self, load_curves):
         # Try from full Feb object
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["LoadData"],
             self.feb_dict1["febio_spec"]["LoadData"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["LoadData"],
             self.feb_dict2["febio_spec"]["LoadData"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
         # Try ndarray loadcurve
-        diff3 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["LoadData"]["load_controller"],
             load_curves["ndarray"].to_dict(),
-            ignore_order=True,
         )
-        assert diff3 == {}, f"Diff is not None: {pformat(diff3)}"
 
     @pytest.mark.parametrize(
         "points", [np.zeros((1, 2)), np.zeros((3, 1)), np.zeros((2, 2, 2)), [(0, 0)]]
@@ -597,16 +560,11 @@ class TestFebCreation:
             LoadCurve(id=0, points=points, interpolate="linear")
 
     def test_output(self):
-        diff1 = DeepDiff(
+        assert_equal_dict(
             self.feb_file1["febio_spec"]["Output"],
             self.feb_dict1["febio_spec"]["Output"],
-            ignore_order=True,
         )
-        assert diff1 == {}, f"Diff is not None: {pformat(diff1)}"
-
-        diff2 = DeepDiff(
+        assert_equal_dict(
             self.feb_file2["febio_spec"]["Output"],
             self.feb_dict2["febio_spec"]["Output"],
-            ignore_order=True,
         )
-        assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
