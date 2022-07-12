@@ -31,7 +31,6 @@ from fepyio.mesh import (
 from fepyio.mesh_domains import MeshDomains, SolidDomain
 from fepyio.module import Module
 from fepyio.output import LogData, LogFile, Output
-from fepyio.typing.mesh import ArterySurface, SimpleMesh, TetMesh
 from fepyio.utils import dict_utils
 
 
@@ -684,9 +683,11 @@ def opts_materials() -> dict:
         },
     }
 
+
 @pytest.fixture(scope="class")
 def element_materials():
     return np.array([3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8])
+
 
 class TestConvertToMaterials:
     def test_populate_materials(self, element_materials, opts_materials):
