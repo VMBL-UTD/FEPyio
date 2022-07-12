@@ -31,14 +31,13 @@ from fepyio.mesh import (
 from fepyio.mesh_domains import MeshDomains, SolidDomain
 from fepyio.module import Module
 from fepyio.output import LogData, LogFile, Output
-from fepyio.tet_mesh import tetmesh_to_feb
 from fepyio.typing.mesh import ArterySurface, SimpleMesh, TetMesh
 from fepyio.utils import dict_utils
 
 
 def post_processor(path, key, value):
     # Skip keys
-    if key in ["@version", "#text"]:
+    if key in {"@version", "#text"}:
         return (key, value)
 
     # Try to convert values to float or int
@@ -616,104 +615,6 @@ class TestFebCreation:
         assert diff2 == {}, f"Diff is not None: {pformat(diff2)}"
 
 
-class TestFebMesh:
-    def test_nodes_errors(self):
-        # Wrong coords shape
-        with pytest.raises(ArrayShapeError):
-            Nodes(name="nodes", coords=np.zeros(5), ids=np.zeros(3))
-
-        with pytest.raises(ArrayShapeError):
-            Nodes(name="nodes", coords=np.zeros((5, 3, 2)), ids=np.zeros(3))
-
-        # Wrong ids shape
-        with pytest.raises(ArrayShapeError):
-            Nodes(name="nodes", coords=np.zeros((5, 3, 2)), ids=np.zeros((5, 3)))
-
-        # Coords/ids shape mismatch
-        with pytest.raises(ArrayShapeError):
-            Nodes(name="nodes", coords=np.zeros((5, 3)), ids=np.zeros(3))
-
-    def test_elements_errors(self):
-        # Wrong array dimensions
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros(5),
-                ids=np.zeros(5),
-            )
-
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros((5, 4, 1)),
-                ids=np.zeros(5),
-            )
-
-        # Wrong elements per type
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros((5, 8)),
-                ids=np.zeros(5),
-            )
-
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET10,
-                elements=np.zeros((5, 4)),
-                ids=np.zeros(5),
-            )
-
-        # Wrong ids shape
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros((5, 4)),
-                ids=np.zeros(4),
-            )
-
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros((5, 4)),
-                ids=np.zeros((5, 2)),
-            )
-
-        # elements / ids shape mismatch
-        with pytest.raises(ArrayShapeError):
-            Elements(
-                name="elms",
-                type=ElementType.TET4,
-                elements=np.zeros((5, 4)),
-                ids=np.zeros((3)),
-            )
-
-    def test_node_set_errors(self):
-        with pytest.raises(ArrayShapeError):
-            NodeSet(name="nodeset", node_ids=np.zeros((5, 2)))
-
-    def test_face_errors(self):
-        # Wrong node shape
-        with pytest.raises(ArrayShapeError):
-            Face(type=FaceType.QUAD4, nodes=np.zeros((4, 2)), id=0)
-
-        # Wrong node count
-        with pytest.raises(ArrayShapeError):
-            Face(type=FaceType.QUAD4, nodes=np.zeros(3), id=0)
-
-        with pytest.raises(ArrayShapeError):
-            Face(type=FaceType.TRI3, nodes=np.zeros(4), id=0)
-
-
-# TetMesh to feb tests
-
-
 @pytest.fixture(scope="class")
 def opts_materials() -> dict:
     return {
@@ -783,163 +684,9 @@ def opts_materials() -> dict:
         },
     }
 
-
-@pytest.fixture(scope="class")
-def tetmesh():
-    return TetMesh(
-        vertices=np.array(
-            [
-                [0.233, 0.608, 0.015],
-                [0.092, 0.595, 0.563],
-                [0.091, 0.552, 0.829],
-                [0.069, 0.579, 0.882],
-                [0.522, 0.499, 0.318],
-            ]
-        ),
-        elements=np.array(
-            [
-                [3, 3, 3, 2],
-                [2, 0, 4, 0],
-                [3, 2, 0, 2],
-                [3, 2, 0, 1],
-                [2, 3, 4, 1],
-                [2, 0, 0, 4],
-                [0, 4, 1, 1],
-                [4, 3, 0, 3],
-                [2, 2, 3, 3],
-                [4, 2, 2, 0],
-                [0, 1, 2, 1],
-                [4, 4, 3, 3],
-                [3, 4, 4, 3],
-                [4, 1, 0, 3],
-                [0, 0, 0, 1],
-                [4, 0, 2, 3],
-                [1, 3, 1, 2],
-                [3, 1, 1, 1],
-            ]
-        ),
-        surfaces=ArterySurface(
-            lumen=SimpleMesh(
-                faces=np.array(
-                    [
-                        [109, 560, 705],
-                        [705, 156, 109],
-                        [156, 705, 738],
-                    ]
-                ),
-                vertices=np.array(
-                    [
-                        [35, 43, 44],
-                        [46, 5, 12],
-                        [27, 17, 22],
-                    ]
-                ),
-            ),
-            endcaps=SimpleMesh(
-                faces=np.array(
-                    [
-                        [191, 140, 86],
-                        [86, 186, 191],
-                        [214, 191, 186],
-                    ]
-                ),
-                vertices=np.array(
-                    [
-                        [35, 43, 44],
-                        [46, 5, 12],
-                        [27, 17, 22],
-                    ]
-                ),
-            ),
-            outer=SimpleMesh(
-                faces=np.array(
-                    [
-                        [191, 140, 86],
-                        [86, 186, 191],
-                        [214, 191, 186],
-                    ]
-                ),
-                vertices=np.array(
-                    [
-                        [35, 43, 44],
-                        [46, 5, 12],
-                        [27, 17, 22],
-                    ]
-                ),
-            ),
-        ),
-    )
-
-
 @pytest.fixture(scope="class")
 def element_materials():
     return np.array([3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8])
-
-
-@pytest.fixture(scope="class")
-def feb_tetmesh(request, tetmesh: TetMesh, element_materials, opts_materials):
-    # Assign materials to elements
-    tetmesh.element_materials = element_materials
-
-    # convert materials to list[BaseMaterial]
-    opts_mats = convert_to_materials(element_materials, opts_materials)
-
-    # create Feb object from TetMesh as dictionary
-    # create feb object as dict
-    feb_dict = tetmesh_to_feb(
-        logfile=R"C:\Users\Public\Desktop\Model.log",
-        pressure=0.016,
-        tetmesh=tetmesh,
-        materials=opts_mats,
-        step_size=0.01,
-    ).to_dict()
-
-    request.cls.feb_tetmesh = feb_dict
-
-
-@pytest.fixture(scope="class")
-def feb_file3(request):
-    request.cls.feb_file3 = get_feb("data/Model3.feb")
-
-
-@pytest.mark.usefixtures("feb_file3", "feb_tetmesh")
-class TestTetmeshToFeb:
-    def __apply_types(self):
-        # Need to assign something to the types for the linter to pick up on, but
-        # they're actually assigned as fixtures
-        self.feb_tetmesh: dict = {}
-        self.feb_file3: dict = {}
-
-    def test_group_elements_by_material(self):
-        # Make sure "Elements" section matches for the feb file generated from a TetMesh
-        # object and the "Model3.feb" file
-        diff = DeepDiff(
-            self.feb_tetmesh["febio_spec"]["Mesh"]["Elements"],
-            self.feb_file3["febio_spec"]["Mesh"]["Elements"],
-            ignore_order=True,
-        )
-        assert diff == {}, f"Diff is not None: {pformat(diff)}"
-
-    def test_get_surfaces(self):
-        # Make sure "Surface" section matches for the feb file generated from a TetMesh
-        # object and the "Model3.feb" file
-        diff = DeepDiff(
-            self.feb_tetmesh["febio_spec"]["Mesh"]["Surface"],
-            self.feb_file3["febio_spec"]["Mesh"]["Surface"],
-            ignore_order=True,
-        )
-        assert diff == {}, f"Diff is not None: {pformat(diff)}"
-
-    def test_tetmesh_to_feb(self):
-        # Make sure all sections match for the feb file generated from a TetMesh object
-        # and the "Model3.feb" file
-        diff = DeepDiff(
-            self.feb_tetmesh["febio_spec"],
-            self.feb_file3["febio_spec"],
-            ignore_order=True,
-        )
-        assert diff == {}, f"Diff is not None: {pformat(diff)}"
-
 
 class TestConvertToMaterials:
     def test_populate_materials(self, element_materials, opts_materials):
