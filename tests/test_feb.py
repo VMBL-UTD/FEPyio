@@ -413,16 +413,15 @@ def feb_obj2(request, load_curves, control, feb_globals, feb_materials):
     "feb_obj2",
 )
 class TestFebCreation:
-    def __apply_types(self):
-        # Need to assign something to the types for the linter to pick up on, but
-        # they're actually assigned as fixtures
-        self.feb_obj1: Feb = None  # type: ignore
-        self.feb_file1: dict = {}
-        self.feb_dict1: dict = {}
+    # Need to assign something to the types for the linter to pick up on, but
+    # they're actually assigned as fixtures
+    feb_obj1: Feb
+    feb_file1: dict
+    feb_dict1: dict
 
-        self.feb_obj2: Feb = None  # type: ignore
-        self.feb_file2: dict = {}
-        self.feb_dict2: dict = {}
+    feb_obj2: Feb
+    feb_file2: dict
+    feb_dict2: dict
 
     def test_version(self):
         assert (
