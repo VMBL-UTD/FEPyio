@@ -567,3 +567,98 @@ class TestFebCreation:
             self.feb_file2["febio_spec"]["Output"],
             self.feb_dict2["febio_spec"]["Output"],
         )
+
+
+class TestFebMesh:
+    def test_nodes_errors(self):
+        # Wrong coords shape
+        with pytest.raises(ArrayShapeError):
+            Nodes(name="nodes", coords=np.zeros(5), ids=np.zeros(3))
+
+        with pytest.raises(ArrayShapeError):
+            Nodes(name="nodes", coords=np.zeros((5, 3, 2)), ids=np.zeros(3))
+
+        # Wrong ids shape
+        with pytest.raises(ArrayShapeError):
+            Nodes(name="nodes", coords=np.zeros((5, 3, 2)), ids=np.zeros((5, 3)))
+
+        # Coords/ids shape mismatch
+        with pytest.raises(ArrayShapeError):
+            Nodes(name="nodes", coords=np.zeros((5, 3)), ids=np.zeros(3))
+
+    def test_elements_errors(self):
+        # Wrong array dimensions
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros(5),
+                ids=np.zeros(5),
+            )
+
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros((5, 4, 1)),
+                ids=np.zeros(5),
+            )
+
+        # Wrong elements per type
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros((5, 8)),
+                ids=np.zeros(5),
+            )
+
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET10,
+                elements=np.zeros((5, 4)),
+                ids=np.zeros(5),
+            )
+
+        # Wrong ids shape
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros((5, 4)),
+                ids=np.zeros(4),
+            )
+
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros((5, 4)),
+                ids=np.zeros((5, 2)),
+            )
+
+        # elements / ids shape mismatch
+        with pytest.raises(ArrayShapeError):
+            Elements(
+                name="elms",
+                type=ElementType.TET4,
+                elements=np.zeros((5, 4)),
+                ids=np.zeros((3)),
+            )
+
+    def test_node_set_errors(self):
+        with pytest.raises(ArrayShapeError):
+            NodeSet(name="nodeset", node_ids=np.zeros((5, 2)))
+
+    def test_face_errors(self):
+        # Wrong node shape
+        with pytest.raises(ArrayShapeError):
+            Face(type=FaceType.QUAD4, nodes=np.zeros((4, 2)), id=0)
+
+        # Wrong node count
+        with pytest.raises(ArrayShapeError):
+            Face(type=FaceType.QUAD4, nodes=np.zeros(3), id=0)
+
+        with pytest.raises(ArrayShapeError):
+            Face(type=FaceType.TRI3, nodes=np.zeros(4), id=0)
