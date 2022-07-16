@@ -61,26 +61,26 @@ class LogFile(FebBase):
     ----------
     file : str
         Full path to log file.
-    node_data : Listable of LogData, optional
+    node_data : list of LogData, optional
         Request nodal data.
-    face_data : Listable of LogData, optional
+    face_data : list of LogData, optional
         Request surface data.
-    element_data : Listable of LogData, optional
+    element_data : list of LogData, optional
         Request element data.
-    rigid_body_data : Listable of LogData, optional
+    rigid_body_data : list of LogData, optional
         Request rigid body data.
 
     Attributes
     ----------
     file : str
         Full path to log file.
-    node_data : Listable of LogData, optional
+    node_data : list of LogData, optional
         Request nodal data.
-    face_data : Listable of LogData, optional
+    face_data : list of LogData, optional
         Request surface data.
-    element_data : Listable of LogData, optional
+    element_data : list of LogData, optional
         Request element data.
-    rigid_body_data : Listable of LogData, optional
+    rigid_body_data : list of LogData, optional
         Request rigid body data.
     _key = "logfile"
 
@@ -108,13 +108,13 @@ class Output(FebBase):
 
     Parameters
     ----------
-    logfiles : Listable of LogFile
-        Single or list of LogFile objects.
+    logfiles : list of LogFile
+        List of LogFile objects.
 
     Attributes
     ----------
-    logfiles : Listable of LogFile
-        Single or list of LogFile objects.
+    logfiles : list of LogFile
+        List of LogFile objects.
     _key = "Output"
 
     Notes

@@ -178,7 +178,7 @@ class NodeSet(FebBase):
         Set name.
     node_ids : np.ndarray, optional
         Numpy array of node ids to include in the set.
-    node_sets : Listable of NodeSet, optional
+    node_sets : list of NodeSet, optional
         Other NodeSets to include in the set.
 
     Attributes
@@ -187,7 +187,7 @@ class NodeSet(FebBase):
         Set name.
     node_ids : np.ndarray, optional
         Numpy array of node ids to include in the set.
-    node_sets : Listable of NodeSet, optional
+    node_sets : list of NodeSet, optional
         Other NodeSets to include in the set.
 
     Notes
@@ -309,7 +309,7 @@ class Surface(FebBase):
         Return:
             Dictionary with key = face types and value = list of faces of that type.
         """
-        # Uncomment if self.faces becomes a listable. Unused if self.faces is a list.
+        # Uncomment if self.faces becomes a list. Unused if self.faces is a list.
         # if isinstance(self.faces, Face):
         #     return {self.faces.type: [self.faces]}
 
@@ -352,25 +352,25 @@ class Mesh(FebBase):
 
     Parameters
     ----------
-    nodes : Listable of Nodes, optional
-        Single or list of Nodes.
-    elements : Listable of Elements, optional
-        Single or list of Elements.
-    node_sets : Listable of NodeSet, optional
-        Single or list of NodeSet.
-    surface : Listable of surface, optional
-        Single or list of Surface.
+    nodes : list of Nodes, optional
+        List of Nodes.
+    elements : list of Elements, optional
+        List of Elements.
+    node_sets : list of NodeSet, optional
+        List of NodeSet.
+    surface : list of surface, optional
+        List of Surface.
 
     Attributes
     ----------
-    nodes : Listable of Nodes
-        Single or list of Nodes.
-    elements : Listable of Elements
-        Single or list of Elements.
-    node_sets : Listable of NodeSet
-        Single or list of NodeSet.
-    surfaces : Listable of surface
-        Single or list of Surface.
+    nodes : list of Nodes
+        List of Nodes.
+    elements : list of Elements
+        List of Elements.
+    node_sets : list of NodeSet
+        List of NodeSet.
+    surfaces : list of surface
+        List of Surface.
     _key = "Mesh"
 
     Notes

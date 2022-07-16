@@ -125,12 +125,12 @@ class Loads(FebBase):
 
     Parameters
     ----------
-    surface_loads : Listable of SurfaceLoad
+    surface_loads : list of SurfaceLoad
         Surface loads
 
     Attributes
     ----------
-    surface_loads : Listable of SurfaceLoad
+    surface_loads : list of SurfaceLoad
         Surface loads
     _key = "Loads"
 

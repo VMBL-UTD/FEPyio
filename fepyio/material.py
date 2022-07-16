@@ -12,13 +12,13 @@ class Material(FebBase):
 
     Parameters
     ----------
-    materials : BaseMaterial or list of BaseMaterial
-        Single or list of materials
+    materials : list of BaseMaterial
+        List of materials
 
     Attributes
     ----------
-    materials : BaseMaterial or list of BaseMaterial
-        Single or list of materials
+    materials : list of BaseMaterial
+        List of materials
     _key = "Material"
 
     Notes

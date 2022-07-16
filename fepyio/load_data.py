@@ -149,14 +149,14 @@ class LoadData(FebBase):
 
     Parameters
     ----------
-    load_controllers : Listable of LoadController
-        Single or list of `LoadController`s
+    load_controllers : list of LoadController
+        List of `LoadController`s
 
 
     Attributes
     ----------
-    load_controllers : Listable of LoadController
-        Single or list of LoadControllers
+    load_controllers : list of LoadController
+        List of LoadControllers
     _key = "LoadData"
 
     Notes

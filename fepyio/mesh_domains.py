@@ -42,13 +42,13 @@ class MeshDomains(FebBase):
 
     Parameters
     ----------
-    solid_domains : Listable of SolidDomain
-        Listable of SolidDomains
+    solid_domains : list of SolidDomain
+        List of SolidDomains
 
     Attributes
     ----------
-    solid_domains : Listable of SolidDomain
-        Listable of SolidDomains
+    solid_domains : list of SolidDomain
+        List of SolidDomains
     _key = "MeshDomains"
 
     Notes

@@ -102,13 +102,13 @@ class Boundary(FebBase):
 
     Parameters
     ----------
-    boundary_conditions : Listable of BoundaryCondition
-        Single or list of BoundaryCondition objects.
+    boundary_conditions : list of BoundaryCondition
+        List of BoundaryCondition objects.
 
     Attributes
     ----------
-    boundary_conditions : Listable of BoundaryCondition
-        Single or list of BoundaryCondition objects.
+    boundary_conditions : list of BoundaryCondition
+        List of BoundaryCondition objects.
     _key = "Boundary"
 
     Notes
