@@ -173,7 +173,7 @@ def feb_obj1(request, load_curves, control, feb_globals, feb_materials):
         module=Module("solid"),
         control=control,
         globals=feb_globals,
-        material=Material(materials=feb_materials["neo-Hookean"]),
+        material=Material(materials=[feb_materials["neo-Hookean"]]),
         mesh=Mesh(
             nodes=[
                 Nodes(
