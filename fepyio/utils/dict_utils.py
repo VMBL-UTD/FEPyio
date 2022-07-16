@@ -1,10 +1,19 @@
 import json
+from collections.abc import Sized
 from typing import OrderedDict
 
 
-def prune_dict(d: dict) -> dict:
-    """Return a new dictionary without keys for 'None' values."""
-    return {key: value for (key, value) in d.items() if value is not None}
+def prune_dict(d: dict, *, prune_empty_iterables: bool = False) -> dict:
+    """Return a new dictionary without keys for 'None' values.
+
+    If prune_empty_iterables=True, iterables of length 0 will be pruned as well.
+    """
+    return {
+        key: value
+        for (key, value) in d.items()
+        if value is not None
+        and (prune_empty_iterables and isinstance(value, Sized) and len(value) > 0)
+    }
 
 
 def prune_dict_inplace(d: dict) -> None:
