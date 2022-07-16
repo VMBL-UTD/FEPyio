@@ -118,9 +118,8 @@ class Boundary(FebBase):
 
     boundary_conditions: list[BoundaryCondition]
 
-    def to_dict(self):
-        _dict = {
-            "bc": [bc.to_dict() for bc in self.boundary_conditions],
+    def _convert_key(self, key: str) -> str:
+        key_lookup = {
+            "boundary_conditions": "bc",
         }
-
-        return prune_dict(_dict)
+        return key_lookup[key] if key in key_lookup else super()._convert_key(key)

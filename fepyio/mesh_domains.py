@@ -58,7 +58,8 @@ class MeshDomains(FebBase):
 
     solid_domains: list[SolidDomain]
 
-    def to_dict(self):
-        return {
-            "SolidDomain": [domain.to_dict() for domain in self.solid_domains],
+    def _convert_key(self, key: str) -> str:
+        key_lookup = {
+            "solid_domains": "SolidDomain",
         }
+        return key_lookup[key] if key in key_lookup else super()._convert_key(key)

@@ -383,12 +383,11 @@ class Mesh(FebBase):
     node_sets: list[NodeSet] = field(default_factory=lambda: [])
     surfaces: list[Surface] = field(default_factory=lambda: [])
 
-    def to_dict(self) -> dict:
-        return prune_dict(
-            {
-                "Nodes": [node.to_dict() for node in self.nodes],
-                "Elements": [element.to_dict() for element in self.elements],
-                "NodeSet": [node_set.to_dict() for node_set in self.node_sets],
-                "Surface": [surface.to_dict() for surface in self.surfaces],
-            }
-        )
+    def _convert_key(self, key: str) -> str:
+        key_lookup = {
+            "nodes": "Nodes",
+            "elements": "Elements",
+            "node_sets": "NodeSet",
+            "surfaces": "Surface",
+        }
+        return key_lookup[key] if key in key_lookup else super()._convert_key(key)
