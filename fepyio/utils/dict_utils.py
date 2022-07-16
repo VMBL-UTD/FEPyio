@@ -8,12 +8,13 @@ def prune_dict(d: dict, *, prune_empty_iterables: bool = False) -> dict:
 
     If prune_empty_iterables=True, iterables of length 0 will be pruned as well.
     """
-    return {
-        key: value
-        for (key, value) in d.items()
-        if value is not None
-        and (prune_empty_iterables and isinstance(value, Sized) and len(value) > 0)
-    }
+    if prune_empty_iterables:
+        return {
+            key: value
+            for (key, value) in d.items()
+            if value is not None and (not isinstance(value, Sized) or len(value) > 0)
+        }
+    return {key: value for (key, value) in d.items() if value is not None}
 
 
 def prune_dict_inplace(d: dict) -> None:
