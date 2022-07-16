@@ -4,7 +4,7 @@ Contains base classes for FEB module
 from dataclasses import dataclass, fields
 from typing import Any
 
-from fepyio.utils.dict_utils import prune_dict
+from fepyio.utils.dict_utils import prune_dict, unlist_dict
 from fepyio.utils.xmltodict_key_converter import prop_to_xml
 
 from ._feb_enum import FebEnum
@@ -74,4 +74,4 @@ class FebBase:
                 key, value = _to_dict(field_val)
                 _dict[key] = value
 
-        return prune_dict(_dict)
+        return prune_dict(unlist_dict(_dict), prune_empty_iterables=True)
