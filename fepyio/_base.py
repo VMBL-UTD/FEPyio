@@ -75,8 +75,3 @@ class FebBase:
                 _dict[key] = value
 
         return prune_dict(_dict)
-
-
-def apply_to_dict(x):
-    """Same as x.to_dict(). Useful for mapping."""
-    return x.to_dict()

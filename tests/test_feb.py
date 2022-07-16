@@ -175,58 +175,72 @@ def feb_obj1(request, load_curves, control, feb_globals, feb_materials):
         globals=feb_globals,
         material=Material(materials=feb_materials["neo-Hookean"]),
         mesh=Mesh(
-            nodes=Nodes(
-                name="AllNodes",
-                coords=np.array([[0, 0, 0]]),
-                ids=np.arange(1) + 1,
-            ),
-            elements=Elements(
-                type=ElementType.TET4,
-                name="element_group_1",
-                elements=np.array([[1, 2, 3, 4]]),
-                ids=np.array([1]),
-            ),
-            surfaces=Surface(
-                name="surface_1",
-                faces=[
-                    Face(
-                        type=FaceType.TRI3,
-                        id=1,
-                        nodes=np.array([1, 2, 3]),
-                    )
-                ],
-            ),
+            nodes=[
+                Nodes(
+                    name="AllNodes",
+                    coords=np.array([[0, 0, 0]]),
+                    ids=np.arange(1) + 1,
+                )
+            ],
+            elements=[
+                Elements(
+                    type=ElementType.TET4,
+                    name="element_group_1",
+                    elements=np.array([[1, 2, 3, 4]]),
+                    ids=np.array([1]),
+                )
+            ],
+            surfaces=[
+                Surface(
+                    name="surface_1",
+                    faces=[
+                        Face(
+                            type=FaceType.TRI3,
+                            id=1,
+                            nodes=np.array([1, 2, 3]),
+                        )
+                    ],
+                )
+            ],
         ),
         mesh_domains=MeshDomains(
-            solid_domains=SolidDomain(name="element_group_1", mat="material_1")
+            solid_domains=[SolidDomain(name="element_group_1", mat="material_1")]
         ),
         boundary=Boundary(
-            boundary_conditions=FixedBoundary(
-                name="fixed_surface",
-                node_set="@surface:surface_1",
-                dofs=("x", "y", "z"),
-            )
+            boundary_conditions=[
+                FixedBoundary(
+                    name="fixed_surface",
+                    node_set="@surface:surface_1",
+                    dofs=("x", "y", "z"),
+                )
+            ]
         ),
         loads=Loads(
-            surface_loads=PressureLoad(
-                name="pressure_1",
-                surface="surface_1",
-                pressure=0.016,
-                load_curve=1,
-                linear=False,
-                symmetric_stiffness=True,
-            )
+            surface_loads=[
+                PressureLoad(
+                    name="pressure_1",
+                    surface="surface_1",
+                    pressure=0.016,
+                    load_curve=1,
+                    linear=False,
+                    symmetric_stiffness=True,
+                )
+            ]
         ),
         load_data=LoadData(load_controllers=load_curves["tuple-list"]),
         output=Output(
-            logfiles=LogFile(
-                file="C:\\Users\\Public\\Desktop\\Model1.log",
-                element_data=LogData(
-                    data="Ex;Ey;Ez",
-                    delim=",",
-                    file="Model1_strain.csv",
-                ),
-            )
+            logfiles=[
+                LogFile(
+                    file="C:\\Users\\Public\\Desktop\\Model1.log",
+                    element_data=[
+                        LogData(
+                            data="Ex;Ey;Ez",
+                            delim=",",
+                            file="Model1_strain.csv",
+                        )
+                    ],
+                )
+            ]
         ),
     )
 
@@ -331,11 +345,13 @@ def feb_obj2(request, load_curves, control, feb_globals, feb_materials):
             ]
         ),
         boundary=Boundary(
-            boundary_conditions=FixedBoundary(
-                name="fixed",
-                node_set="@surface:fixed",
-                dofs=("x", "y", "z"),
-            )
+            boundary_conditions=[
+                FixedBoundary(
+                    name="fixed",
+                    node_set="@surface:fixed",
+                    dofs=("x", "y", "z"),
+                )
+            ]
         ),
         loads=Loads(
             surface_loads=[

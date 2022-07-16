@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
 
 from fepyio.exceptions import ArrayShapeError
-from fepyio.typing import Listable
 from fepyio.utils.dict_utils import prune_dict, unlist_dict
-from fepyio.utils.listable_utils import listable_map
 
-from ._base import FebBase, apply_to_dict
+from ._base import FebBase
 from ._feb_enum import FebEnum
 
 
@@ -199,7 +197,7 @@ class NodeSet(FebBase):
 
     name: str
     node_ids: Optional[np.ndarray] = None
-    node_sets: Optional[Listable[NodeSet]] = None
+    node_sets: Optional[list[NodeSet]] = None
 
     def __post_init__(self):
         if self.node_ids is not None and self.node_ids.ndim != 1:
@@ -380,17 +378,17 @@ class Mesh(FebBase):
     See: [FEBio Manual section 3.6](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.6.html).
     """
 
-    nodes: Optional[Listable[Nodes]] = None
-    elements: Optional[Listable[Elements]] = None
-    node_sets: Optional[Listable[NodeSet]] = None
-    surfaces: Optional[Listable[Surface]] = None
+    nodes: list[Nodes] = field(default_factory=lambda: [])
+    elements: list[Elements] = field(default_factory=lambda: [])
+    node_sets: list[NodeSet] = field(default_factory=lambda: [])
+    surfaces: list[Surface] = field(default_factory=lambda: [])
 
     def to_dict(self) -> dict:
         return prune_dict(
             {
-                "Nodes": listable_map(apply_to_dict, self.nodes),
-                "Elements": listable_map(apply_to_dict, self.elements),
-                "NodeSet": listable_map(apply_to_dict, self.node_sets),
-                "Surface": listable_map(apply_to_dict, self.surfaces),
+                "Nodes": [node.to_dict() for node in self.nodes],
+                "Elements": [element.to_dict() for element in self.elements],
+                "NodeSet": [node_set.to_dict() for node_set in self.node_sets],
+                "Surface": [surface.to_dict() for surface in self.surfaces],
             }
         )

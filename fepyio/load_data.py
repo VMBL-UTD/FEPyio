@@ -6,7 +6,6 @@ from typing import Literal, Optional, Union
 import numpy as np
 
 from fepyio.exceptions import ArrayShapeError
-from fepyio.typing import Listable
 from fepyio.utils.dict_utils import prune_dict
 
 from ._base import FebBase
@@ -165,7 +164,7 @@ class LoadData(FebBase):
     See: [FEBio Manual section 3.17](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.17.html)
     """
 
-    load_controllers: Listable[LoadController]
+    load_controllers: list[LoadController]
 
     def _convert_key(self, key: str) -> str:
         return key[:-1] if key.endswith("s") else super()._convert_key(key)

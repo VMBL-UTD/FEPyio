@@ -1,9 +1,6 @@
 from dataclasses import dataclass
 
-from fepyio.typing.listable import Listable
-from fepyio.utils.listable_utils import listable_map
-
-from ._base import FebBase, apply_to_dict
+from ._base import FebBase
 
 
 @dataclass
@@ -59,9 +56,9 @@ class MeshDomains(FebBase):
     See: [FEBio manual section](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.7.html).
     """
 
-    solid_domains: Listable[SolidDomain]
+    solid_domains: list[SolidDomain]
 
     def to_dict(self):
         return {
-            "SolidDomain": listable_map(apply_to_dict, self.solid_domains),
+            "SolidDomain": [domain.to_dict() for domain in self.solid_domains],
         }
