@@ -1,11 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from fepyio.typing.listable import Listable
 from fepyio.utils.dict_utils import prune_dict
 
-from ._base import FebBase
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 class SurfaceLoadType(FebEnum):
@@ -126,12 +124,12 @@ class Loads(FebBase):
 
     Parameters
     ----------
-    surface_loads : Listable of SurfaceLoad
+    surface_loads : list of SurfaceLoad
         Surface loads
 
     Attributes
     ----------
-    surface_loads : Listable of SurfaceLoad
+    surface_loads : list of SurfaceLoad
         Surface loads
     _key = "Loads"
 
@@ -140,7 +138,7 @@ class Loads(FebBase):
     See: [FEBio Manual section 3.12](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.12.html).
     """
 
-    surface_loads: Listable[SurfaceLoad]
+    surface_loads: list[SurfaceLoad]
 
     def _convert_key(self, key: str) -> str:
         return key[:-1] if key.endswith("s") else super()._convert_key(key)

@@ -1,17 +1,14 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
 
 from fepyio.exceptions import ArrayShapeError
-from fepyio.typing import Listable
 from fepyio.utils.dict_utils import prune_dict, unlist_dict
-from fepyio.utils.listable_utils import listable_map
 
-from ._base import FebBase, apply_to_dict
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 @dataclass
@@ -180,7 +177,7 @@ class NodeSet(FebBase):
         Set name.
     node_ids : np.ndarray, optional
         Numpy array of node ids to include in the set.
-    node_sets : Listable of NodeSet, optional
+    node_sets : list of NodeSet, optional
         Other NodeSets to include in the set.
 
     Attributes
@@ -189,7 +186,7 @@ class NodeSet(FebBase):
         Set name.
     node_ids : np.ndarray, optional
         Numpy array of node ids to include in the set.
-    node_sets : Listable of NodeSet, optional
+    node_sets : list of NodeSet, optional
         Other NodeSets to include in the set.
 
     Notes
@@ -199,7 +196,7 @@ class NodeSet(FebBase):
 
     name: str
     node_ids: Optional[np.ndarray] = None
-    node_sets: Optional[Listable[NodeSet]] = None
+    node_sets: Optional[list[NodeSet]] = None
 
     def __post_init__(self):
         if self.node_ids is not None and self.node_ids.ndim != 1:
@@ -311,7 +308,7 @@ class Surface(FebBase):
         Return:
             Dictionary with key = face types and value = list of faces of that type.
         """
-        # Uncomment if self.faces becomes a listable. Unused if self.faces is a list.
+        # Uncomment if self.faces becomes a list. Unused if self.faces is a list.
         # if isinstance(self.faces, Face):
         #     return {self.faces.type: [self.faces]}
 
@@ -354,25 +351,25 @@ class Mesh(FebBase):
 
     Parameters
     ----------
-    nodes : Listable of Nodes, optional
-        Single or list of Nodes.
-    elements : Listable of Elements, optional
-        Single or list of Elements.
-    node_sets : Listable of NodeSet, optional
-        Single or list of NodeSet.
-    surface : Listable of surface, optional
-        Single or list of Surface.
+    nodes : list of Nodes, optional
+        List of Nodes.
+    elements : list of Elements, optional
+        List of Elements.
+    node_sets : list of NodeSet, optional
+        List of NodeSet.
+    surface : list of surface, optional
+        List of Surface.
 
     Attributes
     ----------
-    nodes : Listable of Nodes
-        Single or list of Nodes.
-    elements : Listable of Elements
-        Single or list of Elements.
-    node_sets : Listable of NodeSet
-        Single or list of NodeSet.
-    surfaces : Listable of surface
-        Single or list of Surface.
+    nodes : list of Nodes
+        List of Nodes.
+    elements : list of Elements
+        List of Elements.
+    node_sets : list of NodeSet
+        List of NodeSet.
+    surfaces : list of surface
+        List of Surface.
     _key = "Mesh"
 
     Notes
@@ -380,17 +377,16 @@ class Mesh(FebBase):
     See: [FEBio Manual section 3.6](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.6.html).
     """
 
-    nodes: Optional[Listable[Nodes]] = None
-    elements: Optional[Listable[Elements]] = None
-    node_sets: Optional[Listable[NodeSet]] = None
-    surfaces: Optional[Listable[Surface]] = None
+    nodes: list[Nodes] = field(default_factory=lambda: [])
+    elements: list[Elements] = field(default_factory=lambda: [])
+    node_sets: list[NodeSet] = field(default_factory=lambda: [])
+    surfaces: list[Surface] = field(default_factory=lambda: [])
 
-    def to_dict(self) -> dict:
-        return prune_dict(
-            {
-                "Nodes": listable_map(apply_to_dict, self.nodes),
-                "Elements": listable_map(apply_to_dict, self.elements),
-                "NodeSet": listable_map(apply_to_dict, self.node_sets),
-                "Surface": listable_map(apply_to_dict, self.surfaces),
-            }
-        )
+    def _convert_key(self, key: str) -> str:
+        key_lookup = {
+            "nodes": "Nodes",
+            "elements": "Elements",
+            "node_sets": "NodeSet",
+            "surfaces": "Surface",
+        }
+        return key_lookup[key] if key in key_lookup else super()._convert_key(key)

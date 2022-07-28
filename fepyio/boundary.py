@@ -1,12 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-from fepyio.typing.listable import Listable
-from fepyio.utils.dict_utils import prune_dict
-from fepyio.utils.listable_utils import listable_map
-
-from ._base import FebBase, apply_to_dict
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 class BoundaryType(FebEnum):
@@ -104,13 +99,13 @@ class Boundary(FebBase):
 
     Parameters
     ----------
-    boundary_conditions : Listable of BoundaryCondition
-        Single or list of BoundaryCondition objects.
+    boundary_conditions : list of BoundaryCondition
+        List of BoundaryCondition objects.
 
     Attributes
     ----------
-    boundary_conditions : Listable of BoundaryCondition
-        Single or list of BoundaryCondition objects.
+    boundary_conditions : list of BoundaryCondition
+        List of BoundaryCondition objects.
     _key = "Boundary"
 
     Notes
@@ -118,11 +113,10 @@ class Boundary(FebBase):
     See: [FEBio manual section 3.10](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.10.html)
     """
 
-    boundary_conditions: Listable[BoundaryCondition]
+    boundary_conditions: list[BoundaryCondition]
 
-    def to_dict(self):
-        _dict = {
-            "bc": listable_map(apply_to_dict, self.boundary_conditions),
+    def _convert_key(self, key: str) -> str:
+        key_lookup = {
+            "boundary_conditions": "bc",
         }
-
-        return prune_dict(_dict)
+        return key_lookup[key] if key in key_lookup else super()._convert_key(key)

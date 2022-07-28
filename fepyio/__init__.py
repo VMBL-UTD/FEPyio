@@ -12,11 +12,9 @@ from . import (
     output,
 )
 from .feb import Feb
-from .tet_mesh import tetmesh_to_feb
 
 __all__ = [
     "Feb",
-    "tetmesh_to_feb",
     "boundary",
     "control",
     "globals",

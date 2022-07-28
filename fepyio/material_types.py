@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-
-from typing_extensions import Annotated
+from typing import Type
 
 
 class MaterialType(Enum):
@@ -112,13 +111,10 @@ class CoupledMooneyRivlin(BaseMaterial):
     type: MaterialType = field(default=MaterialType.COUPLED_MOONEY_RIVLIN, init=False)
 
 
-material_dict: Annotated[
-    dict,
-    "Dictionary of FEBio materials where the key is the material type and "
-    "value is the class.",
-] = {material.type.value: material for material in BaseMaterial.__subclasses__()}
-"""dict: Dictionary of FEBio materials.
+material_dict: dict[str, Type[BaseMaterial]] = {
+    material.type.value: material for material in BaseMaterial.__subclasses__()
+}
+"""Dictionary of FEBio material classes.
 
-key: material type string
-value: class
+keys are the material type as a string and values are the material class (not instance)
 """

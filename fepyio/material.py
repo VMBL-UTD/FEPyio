@@ -1,9 +1,8 @@
 from dataclasses import dataclass, fields
 
-from fepyio.typing import Listable
 from fepyio.utils.dict_utils import unlist_dict
 
-from ._base import FebBase
+from .feb_base import FebBase
 from .material_types import BaseMaterial
 
 
@@ -13,13 +12,13 @@ class Material(FebBase):
 
     Parameters
     ----------
-    materials : BaseMaterial or list of BaseMaterial
-        Single or list of materials
+    materials : list of BaseMaterial
+        List of materials
 
     Attributes
     ----------
-    materials : BaseMaterial or list of BaseMaterial
-        Single or list of materials
+    materials : list of BaseMaterial
+        List of materials
     _key = "Material"
 
     Notes
@@ -27,7 +26,7 @@ class Material(FebBase):
     See: [FEBio Manual section 3.5](https://help.febio.org/FebioUser/FEBio_um_3-4-Section-3.5.html).
     """
 
-    materials: Listable[BaseMaterial]
+    materials: list[BaseMaterial]
 
     def _convert_key(self, key: str) -> str:
         if key in {"id", "name", "type"}:
@@ -43,18 +42,13 @@ class Material(FebBase):
             else:
                 return getattr(material, name)
 
-        # Force list
-        materials = (
-            self.materials if isinstance(self.materials, list) else [self.materials]
-        )
-
         _dict = {
             "material": [
                 {
                     self._convert_key(field.name): _getattr(material, field.name)
                     for field in fields(material)
                 }
-                for material in materials
+                for material in self.materials
             ]
         }
 
