@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass
 
-from ._base import FebBase
+from .feb_base import FebBase
 
 
 @dataclass

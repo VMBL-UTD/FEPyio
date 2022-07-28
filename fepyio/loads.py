@@ -3,8 +3,7 @@ from typing import Optional
 
 from fepyio.utils.dict_utils import prune_dict
 
-from ._base import FebBase
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 class SurfaceLoadType(FebEnum):

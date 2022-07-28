@@ -1,10 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-from fepyio.utils.dict_utils import prune_dict
-
-from ._base import FebBase
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 class BoundaryType(FebEnum):

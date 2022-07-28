@@ -13,7 +13,7 @@ from fepyio.mesh_domains import MeshDomains
 from fepyio.module import Module
 from fepyio.output import Output
 
-from ._base import FebBase
+from .feb_base import FebBase
 
 
 @dataclass

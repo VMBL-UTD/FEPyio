@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 
-from ._base import FebBase
+from .feb_base import FebBase
 
 
 @dataclass

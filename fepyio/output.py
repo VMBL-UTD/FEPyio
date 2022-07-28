@@ -1,9 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from fepyio.utils.dict_utils import prune_dict
-
-from ._base import FebBase
+from .feb_base import FebBase
 
 
 @dataclass

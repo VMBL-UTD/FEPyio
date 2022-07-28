@@ -2,12 +2,11 @@
 Contains base classes for FEB module
 """
 from dataclasses import dataclass, fields
+from enum import Enum
 from typing import Any
 
 from fepyio.utils.dict_utils import prune_dict, unlist_dict
 from fepyio.utils.xmltodict_key_converter import prop_to_xml
-
-from ._feb_enum import FebEnum
 
 
 @dataclass
@@ -75,3 +74,16 @@ class FebBase:
                 _dict[key] = value
 
         return prune_dict(unlist_dict(_dict), prune_empty_iterables=True)
+
+
+class FebEnum(Enum):
+    """Feb Enumeration
+
+    Methods
+    -------
+    get_value() : Generic get value. Can be overwritten.
+    """
+
+    def get_value(self):
+        """Generic get value. Can be overrwritten."""
+        return self.value

@@ -8,8 +8,7 @@ import numpy as np
 from fepyio.exceptions import ArrayShapeError
 from fepyio.utils.dict_utils import prune_dict, unlist_dict
 
-from ._base import FebBase
-from ._feb_enum import FebEnum
+from .feb_base import FebBase, FebEnum
 
 
 @dataclass

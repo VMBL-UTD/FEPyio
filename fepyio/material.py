@@ -2,7 +2,7 @@ from dataclasses import dataclass, fields
 
 from fepyio.utils.dict_utils import unlist_dict
 
-from ._base import FebBase
+from .feb_base import FebBase
 from .material_types import BaseMaterial
 
 
