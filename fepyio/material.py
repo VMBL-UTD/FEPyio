@@ -27,24 +27,29 @@ class Material(FebBase):
     """
 
     materials: list[BaseMaterial]
-    _at_names: ClassVar[AtNames] = {"id", "name", "type"}
 
-    def to_dict(self):
+    @classmethod
+    def _convert_material_key(cls, key):
+        return f"@{key}" if key in {"id", "name", "type"} else key
+
+    @classmethod
+    def material_to_dict(cls, material: BaseMaterial):
         def _getattr(material: BaseMaterial, name: str):
             # BaseMaterial.type is an Enum. We want to get the string key out of it.
-            if name == "type":
-                return getattr(material, name).value
-            else:
-                return getattr(material, name)
+            return (
+                getattr(material, name).value
+                if name == "type"
+                else getattr(material, name)
+            )
 
+        return {
+            cls._convert_material_key(field.name): _getattr(material, field.name)
+            for field in fields(material)
+        }
+
+    def to_dict(self):
         _dict = {
-            "material": [
-                {
-                    self._convert_key(field.name): _getattr(material, field.name)
-                    for field in fields(material)
-                }
-                for material in self.materials
-            ]
+            "material": [self.material_to_dict(material) for material in self.materials]
         }
 
         return unlist_dict(_dict)
