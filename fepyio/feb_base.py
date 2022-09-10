@@ -44,8 +44,14 @@ class FebBase:
 
     def _populate_key_map(self) -> None:
         # Skip "_key" field name because it is only used for nested FebBase objects
-        keys = [field.name for field in fields(self) if field.name != "_key"]
+        keys = {field.name for field in fields(self) if field.name != "_key"}
 
+        # Make sure we don't have any _at_names that are not attributes
+        assert (
+            self._at_names - keys == set()
+        ), f"Unexpected _at_name is not a class attribute: {self._at_names - keys}"
+
+        # Populate _key_map where the value is the XML key name
         self._key_map: dict[str, str] = {key: self._convert_key(key) for key in keys}
 
     def __post_init__(self):
