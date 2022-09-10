@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+from typing import ClassVar
 
-from .feb_base import FebBase
+from .feb_base import AtNames, FebBase
 
 
 @dataclass
@@ -32,8 +33,7 @@ class SolidDomain(FebBase):
     name: str
     mat: str
 
-    def _convert_key(self, key: str) -> str:
-        return f"@{key}"
+    _at_names: ClassVar[AtNames] = {"name", "mat"}
 
 
 @dataclass

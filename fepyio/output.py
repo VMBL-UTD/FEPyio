@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import ClassVar, Optional
 
-from .feb_base import FebBase
+from .feb_base import AtNames, FebBase
 
 
 @dataclass
@@ -46,8 +46,7 @@ class LogData(FebBase):
     delim: Optional[str] = None
     format: Optional[str] = None
 
-    def _convert_key(self, key: str) -> str:
-        return f"@{key}"
+    _at_names: ClassVar[AtNames] = {"data", "file", "name", "delim", "format"}
 
 
 @dataclass
@@ -93,9 +92,7 @@ class LogFile(FebBase):
     element_data: list[LogData] = field(default_factory=lambda: [])
     rigid_body_data: list[LogData] = field(default_factory=lambda: [])
     _key: str = "logfile"
-
-    def _convert_key(self, key: str) -> str:
-        return f"@{key}" if key in {"file"} else super()._convert_key(key)
+    _at_names: ClassVar[AtNames] = {"file"}
 
 
 @dataclass

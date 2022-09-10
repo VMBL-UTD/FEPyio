@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import ClassVar, Literal
 
-from .feb_base import FebBase
+from .feb_base import AtNames, FebBase
 
 
 @dataclass
@@ -34,7 +34,4 @@ class Module(FebBase):
         "fluid-FSI",
     ]
 
-    def to_dict(self):
-        return {
-            "@type": self.type,
-        }
+    _at_names: ClassVar[AtNames] = {"type"}

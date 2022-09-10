@@ -1,9 +1,9 @@
 from dataclasses import dataclass, fields
+from typing import ClassVar
 
+from fepyio.feb_base import AtNames, FebBase
+from fepyio.material_types import BaseMaterial
 from fepyio.utils.dict_utils import unlist_dict
-
-from .feb_base import FebBase
-from .material_types import BaseMaterial
 
 
 @dataclass
@@ -27,12 +27,7 @@ class Material(FebBase):
     """
 
     materials: list[BaseMaterial]
-
-    def _convert_key(self, key: str) -> str:
-        if key in {"id", "name", "type"}:
-            return f"@{key}"
-        else:
-            return super()._convert_key(key)
+    _at_names: ClassVar[AtNames] = {"id", "name", "type"}
 
     def to_dict(self):
         def _getattr(material: BaseMaterial, name: str):
